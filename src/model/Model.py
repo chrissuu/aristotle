@@ -6,31 +6,28 @@ class Model:
     def query(
         self, 
         prompt,
-        response_validator = id,
         response_extractor = id
     ) -> str | None:
         """
-        query
+        Query a model with Model's query_fn.
+        Response extractor should be safe to call 
+        and not throw any errors. If the output
+        is not formatted correctly, None should
+        be returned. Otherwise, return the
+        extracted output.
 
         Args:
             prompt: str
-            response_validator: str -> bool | None
-            response_extractor: str -> Any  | None
+            response_extractor: str -> Any
 
         Returns:
             response_extractor applied to the output of 
-            query(self.model, prompt) if response_validator
-            accepts query's output | None
+            query(self.model, prompt)
         """
         try:
-            response = self.query_fn(self.system_prompt + prompt)
+            output = self.query_fn(self.system_prompt + prompt)
         except Exception as e:
             print(f"Caught unexpected exception {e} while \
                   querying model.")
 
-        if response_validator:
-            is_valid = response_validator()
-        if is_valid:
-            return response_extractor(response)
-        
-        return None
+        return response_extractor(output)
