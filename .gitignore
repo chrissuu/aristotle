@@ -1,3 +1,6 @@
 **/.lake
 **/.vscode
 /.lake
+**/__pycache__
+**/kimina-lean-server
+lake-manifest.json

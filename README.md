@@ -4,41 +4,4 @@ An implementation of [Harmonic](https://harmonic.fun/) IMO winning formal reason
 
 The baseline is the base gpt-oss 20b parameter reasoning model.
 
-Pseudocode:
-
-def formalize_lemmas(lemmas):
-    formally_proved_lemmas, unsuccessful_lemmas = [], []
-
-    for lemma in lemmas:
-        formal_proof = formalize_lemma(model, lemma)
-        error = check_correctness(formal_proof)
-        while error && attempts < MAX_ATTEMPTS:
-            attempts += 1
-            formal_proof = formalize_lemma(model, lemma, error)
-            error = check_correctness(formal_proof)
-
-        if not error:
-            formally_proved_lemmas.append(formal_proof)
-
-    return formally_proved_lemmas, unsuccessful_lemmas
-
-
-def aristotle(file lean4_problem):
-    informal_proof = query(model, lean4_problem)
-    lemmas = query(model, informal_proof) #generate lemmas
-    formally_proved_lemmas, unsuccessful_lemmas = formalize_lemmas(lemmas)
-
-    # section 2.2.2 in paper (iteration w/ formal feedback)
-    prompt = "Original strategy was wrong & needs to be altered or 
-                provided lemmas not granular enough. Revise:"
-    revised_lemmas = query(model, prompt + informal_proof, lemmas \ formally_proved_lemmas)
-
-    formally_proved_revised_lemma = query(model, revised_lemmas)
-
-    remove all sorries, generate goals
-    for each goal:
-        while not goal solved:
-            for attempt in range(k):
-                run mcgs
-
-            TTT
+Checkout this commit of kimina-lean-server: ```4124e95ac08755c3f6661310fdb07a7492484676```
